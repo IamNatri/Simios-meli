@@ -1,13 +1,19 @@
 package IamNatri.domain.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.NamedQuery;
+import jakarta.persistence.*;
 
 @Entity
 @NamedQuery(name = "DNA.allSimians", query = "SELECT d FROM DNA d WHERE d.dnaType = IamNatri.domain.model.DNAType.SIMIAN")
 public class DNA {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String[] dna;
     private DNAType dnaType;
+
+    DNA() {}
 
 
     public DNA (String[] dna, DNAType dnaType){

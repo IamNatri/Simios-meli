@@ -2,13 +2,20 @@ package IamNatri.rs.dto;
 
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ValidateSimianSignature {
 
     private String[] dna;
 
+    private final Logger logger = LoggerFactory.getLogger(ValidateSimianSignature.class);
 
 
     public boolean isSimian() {
+
+        logger.info("dna recived `{}`", Arrays.toString(dna));
+
         for (int i = 0; i < dna.length; i++) {
             if (dna[i].contains("AAAA")) {
                 return true;

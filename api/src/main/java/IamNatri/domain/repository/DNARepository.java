@@ -7,8 +7,12 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class DNARepository implements PanacheRepository<DNA> {
-    public boolean dnaExists(String[] dna) {
-        return find("dna", (Object[]) dna).count() > 0;
+    //search for hashcode
+    public boolean exists(int d){
+        long counter = count("hashCode", d);
+        return counter == 0 ? false: true;
+        // (long) (count_mutant_dna != 0 ?  count_mutant_dna / count_human_dna: 0.0);
+
     }
 
     public Long countSimians() {

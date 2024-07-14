@@ -1,4 +1,4 @@
-package IamNatri.rs.dto;
+package IamNatri.rs.validation;
 
 import java.util.Arrays;
 
@@ -11,7 +11,7 @@ public class ValidateSimianSignature {
     // match para baixo direita e diagonal 
     // early-stop
     // 
-    private String[] dna;
+    String[] dna;
 
     private final Logger logger = LoggerFactory.getLogger(ValidateSimianSignature.class);
 
@@ -35,6 +35,7 @@ public class ValidateSimianSignature {
         return true;
     }
 
+
     public boolean isSimian() {
         int v = 0;
         int h = 0;
@@ -42,6 +43,7 @@ public class ValidateSimianSignature {
         for (int col = 0; col < dna[0].length(); col++) {
             for(int row = 0; row<  dna.length; row++){
                 logger.info("pointer h = {} v = {}", h, v);
+                
                 if (v + 3 < dna.length && h + 3 < dna[v].length()){
                     logger.info("Checking vertical");
                     logger.info("dna[{}] = `{}`", v, dna[v]);

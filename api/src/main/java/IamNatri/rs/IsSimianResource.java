@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 
 
 import IamNatri.domain.repository.DNARepository;
+import IamNatri.rs.validation.ValidateSimianSignature;
 import IamNatri.domain.model.DNA;
 import IamNatri.domain.model.DNAType;
-import IamNatri.rs.dto.ValidateSimianSignature;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -51,18 +51,23 @@ public class IsSimianResource {
             logger.error("DNA is not valid");
             return Response.status(Response.Status.FORBIDDEN.getStatusCode()).build();
         }
+        //FIXME java.lang.IllegalArgumentException: org.hibernate.query.SemanticException: Non-boolean expression used in predicate context: dna [SELECT COUNT(*) FROM `IamNatri.domain.model.DNA` WHERE dna]
+        logger.info("DNA is existent");
+        if (dnaRepository.exists(validateSimianSignature.hashCode())) {
+            logger.info("DNA is existent");
+            return Response.status(Response.Status.OK.getStatusCode()).build();
+        }
+        
         if (validateSimianSignature.isSimian()){
             logger.info("DNA is simian");
-            var dna = new DNA(validateSimianSignature.getDna(), DNAType.SIMIAN);
+            var dna = new DNA(validateSimianSignature.hashCode(), DNAType.SIMIAN);
             dnaRepository.persist(dna);
             return Response.status(Response.Status.OK.getStatusCode()).build();
         }else{
             logger.info("Human DNA");
-            var dna = new DNA(validateSimianSignature.getDna(), DNAType.HUMAN);
+            var dna = new DNA(validateSimianSignature.hashCode(), DNAType.HUMAN);
             dnaRepository.persist(dna);
+            return Response.status(Response.Status.OK.getStatusCode()).build();
         }
-        logger.info("DNA is not simian");
-        return Response.status(Response.Status.FORBIDDEN.getStatusCode()).build();
-
     }
 }
